@@ -2,38 +2,33 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class HolidayReminderMail extends Mailable
+class OrderConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
-    public string $holidayName;
-    public ?string $voucherCode;
-
-    public function __construct($user, string $holidayName, ?string $voucherCode = null)
+    public function __construct(public Order $order)
     {
-        $this->user = $user;
-        $this->holidayName = $holidayName;
-        $this->voucherCode = $voucherCode;
+        $this->order->loadMissing(['items', 'deliverySlot']);
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '💌 ' . $this->holidayName . ' sắp đến - BloomGift nhắc bạn đặt hoa sớm',
+            subject: 'BloomGift đã nhận đơn hàng #' . ($this->order->order_code ?? $this->order->id),
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'emails.holiday_reminder',
+            view: 'emails.order_confirmation',
         );
     }
 

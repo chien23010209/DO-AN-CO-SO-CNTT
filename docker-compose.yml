@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bloomgift-app
+    ports:
+      - "${BLOOMGIFT_PORT:-8000}:8000"
+    environment:
+      # Preserve the existing XAMPP MySQL data rather than creating a new DB.
+      DB_HOST: host.docker.internal
+      # Keep generated asset URLs on the local Docker address.
+      APP_URL: "http://localhost:${BLOOMGIFT_PORT:-8000}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/var/www
+      # Keep Linux PHP dependencies inside Docker instead of using Windows vendor files.
+      - bloomgift_vendor:/var/www/vendor
+      # Do not reuse host package-discovery cache that can reference dev packages.
+      - bloomgift_bootstrap_cache:/var/www/bootstrap/cache
+    restart: unless-stopped
+
+volumes:
+  bloomgift_vendor:
+  bloomgift_bootstrap_cache:

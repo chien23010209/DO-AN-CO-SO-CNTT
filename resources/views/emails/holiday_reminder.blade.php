@@ -36,11 +36,13 @@
             <p>Xin chào <strong>{{ $user->name ?? 'bạn' }}</strong>,</p>
             <p>Những ngày lễ đặc biệt là dịp ý nghĩa để gửi gắm tình cảm và sự trân trọng qua một món quà thật tinh tế.</p>
             <p>BloomGift gợi ý bạn đặt lịch sớm để chủ động chọn sản phẩm, ngày và khung giờ giao phù hợp.</p>
-            <div class="voucher-card">
-                <p class="voucher-title">Ưu đãi dành cho bạn</p>
-                <div class="voucher-code">{{ $voucherCode }}</div>
-                <p class="voucher-desc">Nhập mã này tại bước thanh toán để nhận ưu đãi cho đơn hàng.</p>
-            </div>
+            @if ($voucherCode)
+                <div class="voucher-card">
+                    <p class="voucher-title">Ưu đãi dành cho bạn</p>
+                    <div class="voucher-code">{{ $voucherCode }}</div>
+                    <p class="voucher-desc">Nhập mã này tại bước thanh toán để nhận ưu đãi cho đơn hàng.</p>
+                </div>
+            @endif
             <div class="cta-wrap"><a href="{{ config('app.url') }}" class="btn-cta">Khám phá bộ sưu tập</a></div>
         </div>
         <div class="email-footer"><p><strong>BloomGift</strong> · Gửi trọn lời thương trong từng món quà.</p></div>

@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+.git
+vendor
+node_modules
+Docker-Recovery-Backup
+bloomgift_product_data_update
+*.sql
+storage/logs/*
